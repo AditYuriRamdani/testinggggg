@@ -19,7 +19,15 @@ export function Header() {
         <nav>
           {session ? (
             <div className="flex items-center space-x-4">
-              {/* Tombol Dashboard hanya muncul untuk admin */}
+              {/* Tombol Tiket Saya untuk semua user yang login */}
+              <Link
+                href="/my-tickets"
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              >
+                Tiket Saya
+              </Link>
+
+              {/* Tombol Dashboard hanya untuk admin */}
               {session.user?.role === "admin" && (
                 <Link
                   href="/dashboard/movies"

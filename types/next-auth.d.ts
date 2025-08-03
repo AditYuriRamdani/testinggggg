@@ -1,24 +1,24 @@
-import "next-auth";
-import "next-auth/jwt";
+import type { DefaultSession, DefaultUser } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 
+// Menambahkan properti 'role' ke tipe data JWT
 declare module "next-auth/jwt" {
-  /** Menambahkan properti kustom ke JWT */
   interface JWT {
     id: string;
-    role?: "admin" | "user";
+    role: "admin" | "user" | null; // Izinkan null
   }
 }
 
+// Menambahkan properti 'role' ke tipe data Session dan User
 declare module "next-auth" {
-  /** Menambahkan properti kustom ke User */
-  interface User {
-    role?: "admin" | "user";
+  interface User extends DefaultUser {
+    role: "admin" | "user" | null; // Izinkan null
   }
-  /** Menambahkan properti kustom ke Session */
+
   interface Session {
     user: {
       id: string;
-      role?: "admin" | "user";
-    } & User;
+      role: "admin" | "user" | null; // Izinkan null
+    } & DefaultSession["user"];
   }
 }

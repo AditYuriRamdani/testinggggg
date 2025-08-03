@@ -1,5 +1,5 @@
-import { db } from "../../../../src/lib/db/db";
-import { Button } from "../../../../src/components/ui/button";
+import { db } from "@/lib/db/db";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -7,19 +7,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../../src/components/ui/table";
+} from "@/components/ui/table";
 import Link from "next/link";
-import { MovieActions } from "../../../../src/components/movie-actions";
-import { movies } from "../../../../src/lib/db/schema";
-import { desc } from "drizzle-orm";
-
-// Definisikan tipe Movie secara eksplisit
-type Movie = typeof movies.$inferSelect;
+import { MovieActions } from "@/components/movie-actions";
 
 export default async function MoviesDashboardPage() {
   const movieList = await db.query.movies.findMany({
-    // Beri tipe eksplisit pada parameter orderBy
-    orderBy: (moviesTable, { desc }) => [desc(moviesTable.createdAt)],
+    orderBy: (movies, { desc }) => [desc(movies.createdAt)],
   });
 
   return (
@@ -44,8 +38,7 @@ export default async function MoviesDashboardPage() {
           </TableHeader>
           <TableBody>
             {movieList.length > 0 ? (
-              // Beri tipe eksplisit pada parameter map
-              movieList.map((movie: Movie) => (
+              movieList.map((movie) => (
                 <TableRow key={movie.id}>
                   <TableCell>
                     <img

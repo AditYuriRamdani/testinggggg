@@ -2,16 +2,17 @@
 import { db } from "@/lib/db/db";
 import { movies } from "@/lib/db/schema";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { eq } from "drizzle-orm";
 
 export default async function Home() {
-  const movieList = await db
-    .select()
-    .from(movies)
-    .where(eq(movies.isShowing, true)); // PERBAIKAN DI SINI
+  // --- PERBAIKAN DI SINI ---
+  const movieList = await db.query.movies.findMany({
+    where: eq(movies.isShowing, true),
+  });
+  // -------------------------
 
   return (
     <div className="container mx-auto p-8">
